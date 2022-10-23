@@ -24,3 +24,16 @@ exports.userInfo = (req, res) => {
     })
 
 }
+
+exports.updateUser = (req, res) => {
+    let username = req.headers['username'];
+    const reqBody = req.body;
+    UserModel.updateOne({username: username}, {$set: reqBody}, {upsert: true}, (err, data) => {
+        if (err) {
+            res.status(400).json({success: false, data: err});
+        } else {
+            res.status(200).json({success: true, data: data});
+        }
+    })
+
+}
